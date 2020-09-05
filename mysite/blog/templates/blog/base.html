@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<title>Blog By Elly</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Medium Text Style -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+<!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+
+<!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&family=Russo+One&display=swap" rel="stylesheet">
+
+
+<body class="w3-light-grey techfont ">
+
+<!-- w3-content defines a container for fixed size centered content,
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'post_list' %}">My Blog</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{% url 'about'%}">About</a></li>
+          <li><a href="https://github.com">Github</a></li>
+          <li><a href="https://linkedin.com">LinkedIn</a></li>
+        </ul>
+        {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'post_new'%}">New Post</a></li>
+            <li><a href="{% url 'post_draft_list'%}">Drafts</a></li>
+            <li><a>Welcome {{user.username|capfirst}}</a></li>
+            <li><a href="{% url 'logout'%}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'login'%}"><span class="glyphicon glyphicon-user"></span>Admin</a></li>
+          </ul>
+        {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32">
+  <h1 class='rainbow'><b>MY BLOG</b></h1>
+  <p>Welcome to the blog of <span class="w3-tag">Elyorbek</span></p>
+</header>
+  <div class="w3-row">
+    <div class="w3-col l8 s12">
+    {% block entries %}
+
+
+    {% endblock %}
+    </div>
+    <div class="w3-col l4">
+      {% block intro %}
+
+      {% endblock %}
+    </div>
+    <div class="w3-container">
+      {% block other %}
+      {% endblock %}
+    </div>
+  </div>
+
+
+ <!-- End w3 content -->
+</div>
+
+<footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top footer">
+<p class='rainbow'>Follow me on social media sites :</p>
+     <p><a href="https://www.facebook.com/elyorbek.hamroyev/"><i class="fa fa-facebook"></i></a>
+       <a href="https://www.instagram.com/e1yor_bey/"><i class="fa fa-instagram"></i></a>
+       <a href="https://www.google.com"><i class="fa fa-linkedin"></i></a>
+  </p>
+     <p>Powered by <a href="https://www.pythonanywhere.com" target="_blank">Python Anywhere</a></p>
+</footer>
+
+</body>
+</html>

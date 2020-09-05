@@ -1,0 +1,64 @@
+{% extends 'blog/base.html' %}
+{% block other %}
+
+<h1 class='posttitle'>{{post.title}}</h1>
+{% if post.published_date %}
+ <div class="date postdate">
+   {{post.published_date}}
+ </div>
+{% else %}
+<a class='btn btn-primary' href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+{% endif %}
+
+<p class='postcontent'>{{post.text|safe|linebreaks}}</p>
+{% if user.is_authenticated %}
+  <a class='btn btn-primary' href="{% url 'post_update' pk=post.pk %}">
+    <span class='glyphicon glyphicon-pencil'></span>
+  </a>
+
+  <a class='btn btn-primary' href="{% url 'post_delete' pk=post.pk %}">
+    <span class='glyphicon glyphicon-remove'></span>
+  </a>
+{% endif %}
+
+<hr>
+<a class='btn btn-primary' href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+<p align='center' style="color:red;font-size:1.5em"> Comments</p>
+  {% for comment in post.comments.all %}
+    <div class="w3-card-4 w3-margin-top">
+      {% if user.is_authenticated %}
+        <header class="w3-container">
+        <h5>Posted By : {{comment.author}}</h5>
+        <h5>Created date : {{comment.created_date}}</h5>
+        </header>
+        <div class="w3-container">
+        <p>Comment text : {{comment.text|safe|linebreaks}}</p>
+        </div>
+          {% if comment.approved_comment %}
+            <p>Comment was approved by Admin already</p>
+          {% else %}
+          <a class='btn btn-default' href="{% url 'comment_remove' pk=comment.pk %}">
+            <span class='glyphicon glyphicon-remove'></span>
+          </a>
+          <a class='btn btn-primary' href="{% url 'comment_approve' pk=comment.pk %}">
+            <span class='glyphicon glyphicon-ok'></span>
+          </a>
+          {% endif %}
+      {% else %}
+          {% if comment.approved_comment %}
+              <div class="w3-card-4 w3-margin-top">
+              <header class="w3-container">
+                <h5>Posted By : {{comment.author}}</h5>
+                <h5>Created date : {{comment.created_date}}</h5>
+              </header>
+              <div class="w3-container">
+                <p>Comment text : {{comment.text|safe|linebreaks}}</p>
+              </div>
+              </div>
+          {% endif %}
+      {% endif %}
+      </div>
+    {% empty %}
+    <p>No comments</p>
+    {% endfor %}
+{% endblock %}

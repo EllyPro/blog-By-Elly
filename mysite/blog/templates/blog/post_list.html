@@ -1,0 +1,52 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block entries %}
+  {% for post in post_list %}
+<div class="w3-card-4 w3-margin w3-white">
+  <!-- <img src="{{post.image.url}}" alt="Nature" style="width:100%"> -->
+  <div class="w3-container">
+    <h3><b>{{post.title}}</b></h3>
+    <h5>Title description, <span class="w3-opacity">{{post.published_date|date:"D M Y"}}</span></h5>
+  </div>
+
+  <div class="w3-container">
+    <p>{{post.text|truncatechars:400|safe}}</p>
+    <div class="w3-row">
+      <div class="w3-col m8 s12">
+        <p><a href='{% url "post_detail" pk=post.pk %}' role='button' class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></a></p>
+      </div>
+      <div class="w3-col m4 w3-hide-small">
+        <p><span class="w3-padding-large w3-right"><a href='{% url "post_detail" pk=post.pk %}'>Comments</a> <span class="w3-tag">{{post.comments.count}}</span></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endfor %}
+{% endblock %}
+
+{% block intro %}
+<div class="w3-card w3-margin w3-margin-top">
+  <img src="{% static 'blog/images/pic.jpg' %}" style="width:100%">
+    <div class="w3-container w3-white">
+      <h4><b>About Me</b></h4>
+      <p>Hi there.My name is Elyorbek and I am Web Developer.
+        In this summer I have learnt a lot about Django and Web Application via Udacity,Udemy and Coursera!Now I am working bookshop web site for our shop and I am really excited!
+        I dont really like designing and painting, but for the front end it is really important thing.Because every user want to see a beautiful web site.Being a web developer requires many thins from one such as self-learning,staying motivated and so on.But I know I will be the best developer in the world!
+      </p>
+    </div>
+  </div><hr>
+<div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Popular Posts</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+    {% for post in post_list %}
+    <li class="w3-padding-16">
+        <!-- <img src="{{post.image.url}}" alt="Image" class="w3-left w3-margin-right" style="width:50px"> -->
+        <a href="{% url 'post_detail' pk=post.pk %}"><span class="w3-large">{{post.title|title}}</span><br></a>
+        <span>{{post.text|truncatechars:50|safe}}</span>
+        </a>
+      </li>
+    {% endfor %}
+</div>
+{% endblock %}
